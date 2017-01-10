@@ -1,0 +1,100 @@
+@charset "utf-8";
+
+// mediaScreen
+$breakpoints: (
+	'mobileSize': 'screen and (max-width: 567px)',
+	'tabletSize': 'screen and (min-width: 568px) and (max-width: 1024px)',
+	'pcSize': 'screen and (min-width: 1025px)',
+) !default;
+
+@mixin mediaScreen($breakpoint) {
+	@media #{map-get($breakpoints, $breakpoint)} {
+		@content;
+	}
+}
+
+@mixin clearFix {
+	content: "";
+	display: block;
+	clear: both;
+	*zoom: 1;
+}
+
+// FontAwesome
+$fa: FontAwesome;
+
+@mixin FA($fontCode) {
+	content: '$fontCode';
+	font-family: $fa;
+}
+
+// font-size
+$sfs: 1.2; // rem指定
+$bfs: 1.4; // rem指定
+$lfs: 1.6; // rem指定
+$ofs: 2;   // rem指定
+
+@mixin fontSize($fs, $lh: 1) {
+	font-size: $fs*1.4*10+px;
+	font-size: $fs*1.4+rem;
+	line-height: $lh;
+	@include mediaScreen(mobileSize) {
+		font-size: $fs*10+px;
+		font-size: $fs+rem;
+	}
+}
+
+// prefix
+// 要る、要らないの精査があできるようになると・・・good!!
+
+// 3/4共有の『Autoprefixer』でどうにかなるか。。。？
+// https://gist.github.com/hideki-a/8093155
+
+@mixin prefix($name, $argument) {
+	$prefixList: -webkit-, -moz-, -ms-, -o-, '';
+	@each $prefixCode in $prefixList {
+		#{$prefixCode}#{$name}: #{$argument};
+	}
+}
+
+// @mixin borderRadius($value) {
+// 	@include prefix(border-radius, $value);
+// }
+
+// @mixin boxSizing($value) {
+// 	-webkit-box-sizing: #{$value};
+// 	box-sizing: #{$value};
+// }
+
+// @mixin transition($value) {
+// 	@include prefix(transition, $value);
+// }
+
+// @mixin transitionDuration($value) {
+// 	@include prefix(transition-duration, $value);
+// }
+
+// @mixin transitionProperty($value) {
+// 	@include prefix(transition-property, $value);
+// }
+
+// @mixin transform($value) {
+// 	@include prefix(transform, $value);
+// }
+
+// @mixin animationName($value) {
+// 	@include prefix(animation-name, $value);
+// }
+
+// @mixin animationDuration($value) {
+// 	@include prefix(animation-duration, $value);
+// }
+
+// @mixin animationTimingFunction($value) {
+// 	@include prefix(animation-timing-function, $value);
+// }
+
+// @mixin animationIterationCount($value) {
+// 	@include prefix(animation-iteration-count, $value);
+// }
+

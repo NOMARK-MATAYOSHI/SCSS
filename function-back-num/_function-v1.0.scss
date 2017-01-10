@@ -1,0 +1,160 @@
+@charset "utf-8";
+@import url(https://fonts.googleapis.com/css?family=Montserrat);
+
+/*-------------------
+変数指定
+-------------------*/
+// prefix
+// $prefixList: -webkit-, -moz-, -ms-, -o-;
+
+// $G-Font: Montserrat;
+
+
+// mediaScreen type1
+$original: 'screen and (min-width: 320px)';
+$i5: 'screen and (min-width: 320px) and (max-width: 568px)';
+$i6: 'screen and (min-width: 375px) and (max-width: 627px)';
+$i6p: 'screen and (min-width: 414px) and (max-width: 736px)';
+$ipad: 'screen and (min-width: 768px) and (max-width: 1024px)';
+
+// 呼び出し方
+// @media #{$i5} {}
+
+// ↓css
+//@media screen and (min-width: 320px) and (max-width: 568px) {}
+
+
+
+/*-------------------
+mixin
+-------------------*/
+
+@mixin FA($fontCode) {
+	content: '\$fontCode';
+	font-family: FontAwesome;
+}
+
+
+
+// fontSize v1.0
+// @mixin fontSize( $num: 1.4rem, $num2: null, $num3: null ) {
+// 	font-size: $num+rem;
+// 	// iPhon5 Landscape
+// 	@media screen and (min-width: 568px) {
+// 		@if $num2 == null {
+// 			font-size: $num*1.4+rem;
+// 		} @else {
+// 			font-size: $num2+rem;
+// 		}
+// 	}
+// 	// iPad Portrait
+// 	@media screen and (min-width: 768px) {
+// 		@if $num2 == null {
+// 			font-size: $num*1.4+rem;
+// 		} @else if $num3 == null {
+// 			font-size: $num2+rem;
+// 		} @else {
+// 			font-size: $num3+rem;
+// 		}
+// 	}
+// }
+
+// // small-text
+// .st {
+// 	@include fontSize(1.2);
+// }
+// // base-text
+// .bt {
+// 	@include fontSize(1.4);
+// } 
+// // large-text
+// .lt {
+// 	@include fontSize(1.8);
+// }
+// // oversize-text
+// .ot {
+// 	@include fontSize(2);
+// }
+
+
+
+
+
+// font-size v1.1
+@mixin fontSize($fs, $lh: 1) {
+	font-size: $fs+rem;
+	@if $lh != 1 {
+		line-height: $lh;
+	}
+}
+
+// 呼び出し方
+// @include fontSize(font-sizeの値, line-heightの値); or @include fontSize(font-sizeの値);
+
+// ↓css
+// 	font-size: font-sizeの値(px);
+// 	font-size: font-sizeの値(rem);
+// 	line-height: line-heightの値;
+
+// または
+
+// 	font-size: font-sizeの値(px);
+// 	font-size: font-sizeの値(rem);
+// 	line-height: 1;
+
+
+
+// mediaScreen type2
+$breakpoints: (
+	'original': 'screen and (min-width: 320px)',
+	'i5': 'screen and (min-width: 320px) and (max-width: 568px)',
+	'i6': 'screen and (min-width: 375px) and (max-width: 627px)',
+	'i6p': 'screen and (min-width: 414px) and (max-width: 736px)',
+	'ipad': 'screen and (min-width: 768px) and (max-width: 1024px)',
+) !default;
+
+@mixin breakPont($breakpoint) {
+
+	@if $breakpoint == 0 {
+		$breakpoint: 'original';
+	} @else if $breakpoint == 1 {
+		$breakpoint: 'i5';
+	} @else if $breakpoint == 2 {
+		$breakpoint: 'i6';
+	} @else if $breakpoint == 3 {
+		$breakpoint: 'i6p';
+	} @else if $breakpoint == 4 {
+		$breakpoint: 'ipad';
+	}
+
+	@media #{map-get($breakpoints, $breakpoint)} {
+		@content;
+	}
+}
+
+// 呼び出し方
+// @include breakPont($i5) {} or @include breakPont(1) {}
+
+// ↓css
+// @media screen and (min-width: 320px) and (max-width: 568px) {}
+
+
+
+// prefix
+@mixin prefix($name, $argument) {
+	-webkit-#{$name}: #{$argument};
+	-moz-#{$name}: #{$argument};
+	-ms-#{$name}: #{$argument};
+	-o-#{$name}: #{$argument};
+	#{$name}: #{$argument};
+}
+
+// 呼び出し方
+// @include prefix(プロパティ名, 値);
+
+// ↓css
+// -webkit-プロパティ名: 値;
+// -moz-プロパティ名: 値;
+// -ms-プロパティ名: 値;
+// -o-プロパティ名: 値;
+// プロパティ名: 値;
