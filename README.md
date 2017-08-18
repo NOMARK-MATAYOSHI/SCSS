@@ -20,8 +20,8 @@ Break Pointを管理する関数です。<br>
 
 @mixin bp ( $type: min, $num1: false, $num2: false )
 
-$type...minまたはmaxを指定します。minにすると<br>
-        and (min-width: $num1)で吐き出されます。<br>
+$type...minまたはmaxを指定します。<br>
+        minにすると and (min-width: $num1) で吐き出されます。<br>
         初期値はminですが入力してください。<br>
 $num1...ブレイクポイントの値1を指定します。<br>
 $num2...ブレイクポイントの値2を指定します。<br>
