@@ -10,6 +10,7 @@
 5. [fa()](#fa)
 6. [im()](#im)
 7. [tri-xx()](#tri-xx)
+8. [linear-gradient()](#linear-gradient)
 
 ---
 ## bp()
