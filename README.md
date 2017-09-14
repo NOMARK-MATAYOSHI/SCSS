@@ -11,6 +11,8 @@
 6. [im()](#im)
 7. [tri-xx()](#tri-xx)
 8. [linear-gradient()](#linear-gradient)
+9. ~~[radial-gradient()](#radial-gradient)~~
+10. [text-border()](#text-border)
 
 ---
 ## bp()
@@ -497,7 +499,7 @@ body {
 
 コンパイル後
 ~~~css
-html {
+body {
   /* Old browsers */
   background: #000;
   /* FF3.6-15 */
@@ -513,7 +515,7 @@ html {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000', endColorstr='#FFF',GradientType=0 );
 }
 
-html:before {
+body:before {
   content: '';
   display: block;
   padding-top: 200px;
@@ -531,3 +533,43 @@ html:before {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000', endColorstr='#FFF',GradientType=1 );
 }
 ~~~
+<br><br><br>
+ - [上部へ戻る](#readme)
+<br><br><br>
+
+---
+## radial-gradient()
+---
+調整中なり。
+<br><br><br>
+ - [上部へ戻る](#readme)
+<br><br><br>
+
+---
+## text-border()
+---
+cssでテキストにボーダーを付けるための関数。<br>
+使用できる最大の太さは5px前後かと思います。<br>
+
+@mixin text-border($width, $color)
+
+$width...太さを指定します。単位は外してください。<br>
+$color...色を指定します。<br>
+~~~css
+ｐ {
+  @include text-border(3, #FFF);
+}
+~~~
+
+コンパイル後
+~~~css
+body {
+  text-shadow: #FFF -3px 0px, #FFF -2px -1px, #FFF -1px -2px, #FFF 0px -3px , #FFF 0px -3px, #FFF 1px -2px, #FFF 2px -1px, #FFF 3px 0px , #FFF 3px 0px, #FFF 2px 1px, #FFF 1px 2px, #FFF 0px 3px , #FFF 0px 3px, #FFF -1px 2px, #FFF -2px 1px, #FFF -3px 0px;
+}
+~~~
+※補足<br>
+$widthの設定値分、上下左右にずらし<br>
+その後その点を結ぶように影の位置をずらしています。<br>
+また、文字とずらした位置の補完を完全には行っていません。<br><br>
+なので$widthの設定値を大きくすると<br>
+穴の開いた菱型のようになりborderとはとても言えなくなりますのであしからず。。。
