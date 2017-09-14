@@ -4,15 +4,21 @@
  - 目次
 
 1. [bp()](#bp)
-2. [breakMax()](#breakMax)
-3. [breakMin()](#breakMin)
-4. [fsvw()](#fsvw)
-5. [fa()](#fa)
-6. [im()](#im)
-7. [tri-xx()](#tri-xx)
-8. [linear-gradient()](#linear-gradient)
-9. ~~[radial-gradient()](#radial-gradient)~~
-10. [text-border()](#text-border)
+1. [@function vw_sp()](#fa)
+1. [@mixin vw_sp()](#fa)
+1. [@function vw_pc()](#fa)
+1. [@mixin vw_pc()](#fa)
+1. [@function per_sp()](#fa)
+1. [@mixin per_sp()](#fa)
+1. [@function per_pc()](#fa)
+1. [@mixin per_pc()](#fa)
+1. [fsvw()](#fsvw)
+1. [fa()](#fa)
+1. [im()](#im)
+1. [tri-xx()](#tri-xx)
+1. [linear-gradient()](#linear-gradient)
+1. ~~[radial-gradient()](#radial-gradient)~~
+1. [text-border()](#text-border)
 
 ---
 ## bp()
@@ -99,60 +105,29 @@ html {
 <br><br><br>
 
 ---
-## breakMax()
+## @function vw_sp()
 ---
-bp()の旧式になります。<br>
-@mediaのmax-widthが設定できます。<br>
-関数は第二引数まで用意されております。
+デザインのSP幅(750px)に対してどれぐらいの比率のvwになるかを計算する関数。<br><br>
 
-@mixin breakMax ( $max, $min )
-
-$max...ブレイクポイントの最大値を指定します。<br>
-$min...ブレイクポイントの最小値を指定します。<br>
-
-bp()と違い<br>
-$max,$minの順番で指定してください。
-
-順番を入れ替えると<br>
-意図した順番に吐き出されないかもしれないので気を付けてください。
-
-アップデートの予定はなく、<br>
-しばらくしたら削除する予定です。
+@function vw_sp( $num )
+$num...数字。単位はつけない。
 
 コンパイル前
 ~~~css
 html {
-  @include breakMax( 100px) {
-    background: red;
-  }
-  @include breakMax( 100px, 150px) {
-    background: green;
-  }
-  @include breakMax( 200px, 100px) {
-    /* error */
-    background: pink;
+  @include bp( max, 600px ) {
+    font-size: vw_sp( 36 );
+    margin-bottom: vw_sp( 44 );
   }
 }
 ~~~
 
 コンパイル後
 ~~~css
-@media screen and (max-width: 100px) {
+@media screen and (max-width: 600px) {
   html {
-    background: red;
-  }
-}
-
-@media screen and (max-width: 100px) and (min-width: 150px) {
-  html {
-    background: green;
-  }
-}
-
-@media screen and (max-width: 200px) and (min-width: 100px) {
-  html {
-    /* error */
-    background: pink;
+    font-size: 4.8vw;
+    margin-bottom: 5.86667vw;
   }
 }
 ~~~
@@ -161,60 +136,211 @@ html {
 <br><br><br>
 
 ---
-## breakMin()
+## @mixin vw_sp()
 ---
-bp()の旧式になり、<br>
-breakMax()とは逆にmin-widthを設定できます。<br>
-関数は第二引数まで用意されております。
+デザインのSP幅(750px)に対してコンテンツがどれぐらいの比率のvwになるかを計算し幅を設定する関数。<br><br>
 
-@mixin breakMin ( $min, $max )
-
-$min...ブレイクポイントの最小値を指定します。<br>
-$max...ブレイクポイントの最大値を指定します。<br>
-
-bp()と違い<br>
-$min,$maxの順番で指定してください。
-
-順番を入れ替えると<br>
-意図した順番に吐き出されないかもしれないので気を付けてください。
-
-アップデートの予定はなく、<br>
-しばらくしたら削除する予定です。
+@mixin vw_sp( $num )
+$num...数字。単位はつけない。
 
 コンパイル前
 ~~~css
 html {
-  @include breakMin( 100px) {
-    background: red;
-  }
-  @include breakMin( 100px, 150px) {
-    background: green;
-  }
-  @include breakMin( 200px, 100px) {
-    /* error */
-    background: pink;
+  @include bp( min, 600px ) {
+    @include vw_sp( 500 );
   }
 }
 ~~~
 
 コンパイル後
 ~~~css
-@media screen and (min-width: 100px) {
+@media screen and (min-width: 600px) {
   html {
-    background: red;
+    width: 66.66667vw;
+    max-width: 500px;
   }
 }
+~~~
+<br><br><br>
+ - [上部へ戻る](#readme)
+<br><br><br>
 
-@media screen and (max-width: 150px) and (min-width: 100px) {
-  html {
-    background: green;
+---
+## @function vw_pc()
+---
+デザインのPC幅(1200px)に対してどれぐらいの比率のvwになるかを計算する関数。<br><br>
+
+@function vw_pc( $num )
+$num...数字。単位はつけない。
+
+コンパイル前
+~~~css
+html {
+  @include bp( min, 600px ) {
+    font-size: vw_pc( 36 );
+    margin-bottom: vw_pc( 44 );
   }
 }
+~~~
 
-@media screen and (max-width: 100px) and (min-width: 200px) {
+コンパイル後
+~~~css
+@media screen and (min-width: 600px) {
   html {
-    /* error */
-    background: pink;
+    font-size: 3vw;
+    margin-bottom: 3.66667vw;
+  }
+}
+~~~
+<br><br><br>
+ - [上部へ戻る](#readme)
+<br><br><br>
+
+---
+## @mixin vw_pc()
+---
+デザインのPC幅(1200px)に対してコンテンツがどれぐらいの比率のvwになるかを計算し幅を設定する関数。<br><br>
+
+@mixin vw_sp( $num )
+$num...数字。単位はつけない。
+
+コンパイル前
+~~~css
+html {
+  @include bp( min, 600px ) {
+    @include vw_pc( 500 );
+  }
+}
+~~~
+
+コンパイル後
+~~~css
+@media screen and (min-width: 600px) {
+  html {
+    width: 41.66667vw;
+    max-width: 500px;
+  }
+}
+~~~
+<br><br><br>
+ - [上部へ戻る](#readme)
+<br><br><br>
+
+---
+## @function per_sp()
+---
+デザインのSP幅(750px)に対してどれぐらいの比率のvwになるかを計算する関数。<br><br>
+
+@function per_sp( $num )
+$num...数字。単位はつけない。
+
+コンパイル前
+~~~css
+html {
+  @include bp( max, 600px ) {
+    font-size: per_sp( 36 );
+    margin-bottom: per_sp( 44 );
+  }
+}
+~~~
+
+コンパイル後
+~~~css
+@media screen and (max-width: 600px) {
+  html {
+    font-size: 4.8%;
+    margin-bottom: 5.86667%;
+  }
+}
+~~~
+<br><br><br>
+ - [上部へ戻る](#readme)
+<br><br><br>
+
+---
+## @mixin per_sp()
+---
+デザインのSP幅(750px)に対してコンテンツがどれぐらいの比率の%になるかを計算し幅を設定する関数。<br><br>
+
+@mixin per_sp( $num )
+$num...数字。単位はつけない。
+
+コンパイル前
+~~~css
+html {
+  @include bp( min, 600px ) {
+    @include per_sp( 500 );
+  }
+}
+~~~
+
+コンパイル後
+~~~css
+@media screen and (min-width: 600px) {
+  html {
+    width: 66.66667%;
+    max-width: 500px;
+  }
+}
+~~~
+<br><br><br>
+ - [上部へ戻る](#readme)
+<br><br><br>
+
+---
+## @function per_pc()
+---
+デザインのPC幅(1200px)に対してどれぐらいの比率の%になるかを計算する関数。<br><br>
+
+@function per_pc( $num )
+$num...数字。単位はつけない。
+
+コンパイル前
+~~~css
+html {
+  @include bp( min, 600px ) {
+    font-size: per_pc( 36 );
+    margin-bottom: per_pc( 44 );
+  }
+}
+~~~
+
+コンパイル後
+~~~css
+@media screen and (min-width: 600px) {
+  html {
+    font-size: 3%;
+    margin-bottom: 3.66667%;
+  }
+}
+~~~
+<br><br><br>
+ - [上部へ戻る](#readme)
+<br><br><br>
+
+---
+## @mixin per_pc()
+---
+デザインのPC幅(1200px)に対してコンテンツがどれぐらいの比率の%になるかを計算し幅を設定する関数。<br><br>
+
+@mixin per_sp( $num )
+$num...数字。単位はつけない。
+
+コンパイル前
+~~~css
+html {
+  @include bp( min, 600px ) {
+    @include per_pc( 500 );
+  }
+}
+~~~
+
+コンパイル後
+~~~css
+@media screen and (min-width: 600px) {
+  html {
+    width: 41.66667%;
+    max-width: 500px;
   }
 }
 ~~~
