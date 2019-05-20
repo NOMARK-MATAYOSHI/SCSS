@@ -116,14 +116,10 @@
 }
 
 //————————————————————————————————————————————
-// FontSize
+// line-hight Expansion Rate
 //————————————————————————————————————————————
-@mixin fsvw( $type: min, $num1: false, $num2: false ) {
-  @include bp( $type, $num1, $num2 ) {
-    :root {
-      font-size: calc( 100% + ( ( 1vw - .48rem ) * 1.389 ) );
-    }
-  }
+@function lh_er( $fs, $lh ) {
+  @return ( $fs * $lh - $fs ) / 2;
 }
 
 //————————————————————————————————————————————
