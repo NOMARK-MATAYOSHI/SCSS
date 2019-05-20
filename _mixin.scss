@@ -557,3 +557,35 @@ $im: icomoon;
   text-overflow: initial;
   @content;
 }
+
+
+//————————————————————————————————————————————
+// Text space by Text size
+//————————————————————————————————————————————
+// 文字サイズで余白を調整する関数（IEがvar関数対応していない為）
+@function space( $size: unit, $mag: 1 ) {
+  $--space: (
+    xxs  : 0.25em * $mag,
+    xs   :  0.5em * $mag,
+    sm   : 0.75em * $mag,
+    unit :    1em * $mag,
+    md   : 1.25em * $mag,
+    lg   :  1.5em * $mag,
+    xl   : 1.75em * $mag,
+    xxl  :    2em * $mag,
+  );
+
+  // フィボナッチ数列版
+  // $--space: (
+  //   xxs  : 0.25em * $mag,
+  //   xs   :  0.5em * $mag,
+  //   sm   : 0.75em * $mag,
+  //   unit :    1em * $mag,
+  //   md   : 1.25em * $mag,
+  //   lg   :    2em * $mag,
+  //   xl   : 3.25em * $mag,
+  //   xxl  : 5.25em * $mag,
+  // );
+
+  @return #{ map-get( $--space, $size ) };
+}
