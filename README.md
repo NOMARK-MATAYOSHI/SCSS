@@ -3,7 +3,7 @@
 ---
  - 目次
 
-1. [bp()](#bp)
+1. [@mixin bp()](#mixin-bp)
 1. [@function vw_sp()](#function-vw_sp)
 1. [@mixin vw_sp()](#mixin-vw_sp)
 1. [@function vw_pc()](#function-vw_pc)
@@ -12,16 +12,25 @@
 1. [@mixin per_sp()](#mixin-per_sp)
 1. [@function per_pc()](#function-per_pc)
 1. [@mixin per_pc()](#mixin-per_pc)
-1. [fsvw()](#fsvw)
-1. [fa()](#fa)
-1. [im()](#im)
-1. [tri-xx()](#tri-xx)
-1. [linear-gradient()](#linear-gradient)
-1. ~~[radial-gradient()](#radial-gradient)~~
-1. [text-border()](#text-border)
+1. [@function ls()](#function-ls) add v2.7.0
+1. [@mixin ls()](#mixin-ls) add v2.7.0
+1. [@function lh_er()](#function-lh_er) add v2.7.0
+1. ~~[@function fsvw()](#function-fsvw)~~ delete v2.7.0
+1. [@mixin fa()](#mixin-fa)
+1. [@mixin fa4()](#mixin-fa4) add v2.7.0
+1. [@mixin fa5()](#mixin-fa5) add v2.7.0
+1. [@mixin im()](#mixin-im)
+1. [@mixin tri-xx()](#mixin-tri-xx)
+1. [@mixin linear-gradient()](#mixin-linear-gradient)
+1. ~~[radial-gradient()](#radial-gradient)~~ Unimplemented
+1. [@function repeating-linear()](#function-repeating-linear)
+1. [@function repeating-radial()](#function-repeating-radial)
+1. [@mixin text-border()](#mixin-text-border)
+1. [@mixin leader()](#mixin-text-border)
+1. [@mixin break-leader()](#mixin-text-border)
 
 ---
-## bp()
+## @mixin bp()
 ---
 Break Pointを管理する関数です。<br>
 関数は第三引数まで用意されております。
@@ -349,19 +358,104 @@ html {
 <br><br><br>
 
 ---
-## fsvw()
+## @function ls()
 ---
-<b>開発途中</b>
-フォントサイズのvwで文字サイズを調整した際に最小サイズを固定するための関数。<br>
+PhotoShop上で表記されているletter-spacing値を変換する関数。<br><br>
+
+@function ls( $num )
+$num...数字。単位はつけない。
+
+コンパイル前
+~~~css
+html {
+  letter-spacing: ls( 200 );
+}
+~~~
+
+コンパイル後
+~~~css
+html {
+  letter-spacing: .2em;
+}
+~~~
 
 <br><br><br>
  - [上部へ戻る](#readme)
 <br><br><br>
 
 ---
-## fa()
+## @mixin ls()
 ---
-[Font Awesome](http://fontawesome.io/icons/)で使用するiconのIDを使用しやすくするための関数。<br>
+PhotoShop上で表記されているletter-spacing値を変換する関数。<br><br>
+
+@mixin ls( $num )
+$num...数字。単位はつけない。
+
+コンパイル前
+~~~css
+html {
+  @include ls( 200 );
+}
+~~~
+
+コンパイル後
+~~~css
+html {
+  letter-spacing: .2em;
+}
+~~~
+
+<br><br><br>
+ - [上部へ戻る](#readme)
+<br><br><br>
+
+---
+## @function lh_er()
+---
+line-hightで伸びた高さを算出する関数。<br>
+margin値の調整などに使用<br><br>
+
+@function lh_er( $lh, $fs: false )
+$lh...line-hightの大きさ。
+$fs...フォントサイズ。単位は必須。単位がない場合は数値が返ります。（省略可）
+
+コンパイル前
+~~~css
+html {
+  margin-top: lh_er( 2, 16px );
+  margin-top: lh_er( 3.2, 16 );
+  margin-top: lh_er( 2 ) * -1;
+}
+~~~
+
+コンパイル後
+~~~css
+html {
+    margin-top: 8px;
+    margin-top: 17.6;
+    margin-top: -.5em;
+}
+~~~
+
+<br><br><br>
+ - [上部へ戻る](#readme)
+<br><br><br>
+
+---
+## @function fsvw()
+---
+開発途中<br>
+フォントサイズのvwで文字サイズを調整した際に最小サイズを固定するための関数。<br>
+<b>※v2.7.0から削除</b>
+
+<br><br><br>
+ - [上部へ戻る](#readme)
+<br><br><br>
+
+---
+## @mixin fa()
+---
+[Font Awesome](https://fontawesome.io/icons/)で使用するiconのIDを使用しやすくするための関数。<br>
 Font Awsomeのiconを疑似要素で使用する前提で作っているので『::before』または『::after』内で呼び出します。<br>
 
 @mixin fa( $fontCode )
@@ -406,7 +500,26 @@ html:after{
 <br><br><br>
 
 ---
-## im()
+## @mixin fa4()
+---
+[Font Awesome v4.x](https://fontawesome.com/v4.7.0/)用
+
+<br><br><br>
+ - [上部へ戻る](#readme)
+<br><br><br>
+
+---
+## @mixin fa5()
+---
+[Font Awesome v5.x](https://fontawesome.io/icons/)用
+`@mixin fa()`と違い`font-weight: 900;`で固定のため揺らぎに注意。
+
+<br><br><br>
+ - [上部へ戻る](#readme)
+<br><br><br>
+
+---
+## @mixin im()
 ---
 [icomoon](https://icomoon.io/app/#/select)で使用するiconのIDを使用しやすくするための関数。<br>
 icomoonのiconを疑似要素で使用する前提で作っているので『::before』または『::after』内で呼び出します。<br>
@@ -453,7 +566,7 @@ html:after{
 <br><br><br>
 
 ---
-## tri-xx()
+## @mixin tri-xx()
 ---
 cssで三角形を作るための関数。<br>
 tri-xx()の『xx』部分で頂点の方向を指定します。（計8パターン）<br>
@@ -574,7 +687,7 @@ html:before{
 <br><br><br>
 
 ---
-## linear-gradient()
+## @function linear-gradient()
 ---
 cssでグラデーションパターンを作るための関数。<br>
 単調なグラデーションは作成できます。<br>
@@ -664,7 +777,7 @@ body:before {
 <br><br><br>
 
 ---
-## radial-gradient()
+## @function radial-gradient()
 ---
 調整中なり。
 <br><br><br>
@@ -672,7 +785,7 @@ body:before {
 <br><br><br>
 
 ---
-## text-border()
+## @mixin text-border()
 ---
 cssでテキストにボーダーを付けるための関数。<br>
 使用できる最大の太さは5px前後かと思います。<br>
@@ -689,7 +802,7 @@ $color...色を指定します。<br>
 
 コンパイル後
 ~~~css
-body {
+p {
   text-shadow: #FFF -3px 0px, #FFF -2px -1px, #FFF -1px -2px, #FFF 0px -3px , #FFF 0px -3px, #FFF 1px -2px, #FFF 2px -1px, #FFF 3px 0px , #FFF 3px 0px, #FFF 2px 1px, #FFF 1px 2px, #FFF 0px 3px , #FFF 0px 3px, #FFF -1px 2px, #FFF -2px 1px, #FFF -3px 0px;
 }
 ~~~
@@ -699,3 +812,91 @@ $widthの設定値分、上下左右にずらし<br>
 また、文字とずらした位置の補完を完全には行っていません。<br><br>
 なので$widthの設定値を大きくすると<br>
 穴の開いた菱型のようになりborderとはとても言えなくなりますのであしからず。。。
+<br><br><br>
+ - [上部へ戻る](#readme)
+<br><br><br>
+
+---
+## @mixin leader()
+---
+cssで再現する三点リーダー用のアセット。<br>
+`@content`を入れているので上書き可能になっております。<br>
+
+~~~css
+h1 {
+  @include leader();
+}
+ｐ {
+  @include leader() {
+    display: inline-block;
+  };
+}
+~~~
+
+コンパイル後
+~~~css
+h1 {
+  overflow: hidden;
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  white-space: nowrap;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+}
+p {
+  overflow: hidden;
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  white-space: nowrap;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+
+  display: inline-block; /* add */
+}
+~~~
+<br><br><br>
+ - [上部へ戻る](#readme)
+<br><br><br>
+
+---
+## @mixin break-leader()
+---
+`@mixin leader()`をリセットするために作成<br>
+。。。がうまく効いていないようなので確認中。
+
+~~~css
+h1 {
+  @include break-leader();
+}
+ｐ {
+  @include break-leader() {
+    display: inline-block;
+  };
+}
+~~~
+
+コンパイル後
+~~~css
+h1 {
+  overflow: visible;
+  width: auto;
+  max-width: none;
+  white-space: normal;
+  text-overflow: clip;
+}
+p {
+  overflow: visible;
+  width: auto;
+  max-width: none;
+  white-space: normal;
+  text-overflow: clip;
+
+  display: inline-block; /* add */
+}
+~~~
+
+<br><br><br>
+ - [上部へ戻る](#readme)
+<br><br><br>
