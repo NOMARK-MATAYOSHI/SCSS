@@ -118,7 +118,11 @@
 //————————————————————————————————————————————
 // line-hight Expansion Rate
 //————————————————————————————————————————————
-@function lh_er( $fs, $lh ) {
+@function lh_er( $lh, $fs: false ) {
+  @if $fs == false {
+    $fs: 1em;
+  }
+
   @return ( $fs * $lh - $fs ) / 2;
 }
 
