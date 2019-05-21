@@ -12,8 +12,8 @@
 1. [@mixin per_sp()](#mixin-per_sp)
 1. [@function per_pc()](#function-per_pc)
 1. [@mixin per_pc()](#mixin-per_pc)
-1. [@function ls()](#function-ls) add v2.7.0
-1. [@mixin ls()](#mixin-ls) add v2.7.0
+1. [@function ls()](#function-ls)
+1. [@mixin ls()](#mixin-ls)
 1. [@function lh_er()](#function-lh_er) add v2.7.0
 1. ~~[@function fsvw()](#function-fsvw)~~ delete v2.7.0
 1. [@mixin fa()](#mixin-fa)
