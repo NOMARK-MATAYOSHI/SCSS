@@ -84,17 +84,6 @@
 }
 
 //————————————————————————————————————————————
-// letter-spacing
-//————————————————————————————————————————————
-@function ls( $num ) {
-  @return ( unit_delete( $num ) / 1000 )+em;
-}
-
-@mixin ls( $num ) {
-  letter-spacing: ls( $num );
-}
-
-//————————————————————————————————————————————
 // Per
 //————————————————————————————————————————————
 @function per_sp( $num ) {
@@ -116,9 +105,24 @@
 }
 
 //————————————————————————————————————————————
+// letter-spacing
+//————————————————————————————————————————————
+@function ls( $num ) {
+  @return ( unit_delete( $num ) / 1000 )+em;
+}
+
+@mixin ls( $num ) {
+  letter-spacing: ls( $num );
+}
+
+//————————————————————————————————————————————
 // line-hight Expansion Rate
 //————————————————————————————————————————————
-@function lh_er( $fs, $lh ) {
+@function lh_er( $lh, $fs: false ) {
+  @if $fs == false {
+    $fs: 1em;
+  }
+
   @return ( $fs * $lh - $fs ) / 2;
 }
 
@@ -539,25 +543,23 @@ $im: icomoon;
 // 3 Point Leader
 //————————————————————————————————————————————
 @mixin leader() {
+  overflow: hidden;
+  display: block;
   width: 100%;
   max-width: 100%;
-  display: block;
-  overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
   @content;
 }
 
 @mixin break-leader() {
-  width: initial;
-  max-width: initial;
-  display: initial;
-  overflow: initial;
-  white-space: initial;
-  text-overflow: initial;
+  overflow: visible;
+  width: auto;
+  max-width: none;
+  white-space: normal;
+  text-overflow: clip;
   @content;
 }
-
 
 //————————————————————————————————————————————
 // Text space by Text size
