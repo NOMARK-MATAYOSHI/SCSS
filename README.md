@@ -26,8 +26,8 @@
 1. [@function repeating-linear()](#function-repeating-linear)
 1. [@function repeating-radial()](#function-repeating-radial)
 1. [@mixin text-border()](#mixin-text-border)
-1. [@mixin leader()](#mixin-text-border)
-1. [@mixin break-leader()](#mixin-text-border)
+1. [@mixin leader()](#mixin-leader)
+1. [@mixin break-leader()](#mixin-break-leader)
 
 ---
 ## @mixin bp()
@@ -687,7 +687,7 @@ html:before{
 <br><br><br>
 
 ---
-## @function linear-gradient()
+## @mixin linear-gradient()
 ---
 cssでグラデーションパターンを作るための関数。<br>
 単調なグラデーションは作成できます。<br>
@@ -777,9 +777,21 @@ body:before {
 <br><br><br>
 
 ---
-## @function radial-gradient()
+## @function repeating-linear()
 ---
-調整中なり。
+パターン作成用の関数。<br>
+使用用途はまとめておりますので後日。
+
+<br><br><br>
+ - [上部へ戻る](#readme)
+<br><br><br>
+
+---
+## @function repeating-radial()
+---
+パターン作成用の関数。<br>
+使用用途はまとめておりますので後日。
+
 <br><br><br>
  - [上部へ戻る](#readme)
 <br><br><br>
