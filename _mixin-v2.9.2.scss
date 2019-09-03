@@ -642,19 +642,17 @@ $im: icomoon;
 //————————————————————————————————————————————
 // 天地中央
 //————————————————————————————————————————————
-@mixin absolute( $horizontal: false, $vertical: false ) {
+@mixin centering-elements( $horizontal: true, $vertical: true ) {
   position: absolute;
 
   @if $horizontal and $vertical {
     bottom: 50%;
     right: 50%;
     transform: translate( 50%, 50% );
-  }
-  @else if $horizontal {
+  } @else if $horizontal {
     right: 50%;
     transform: translate( 50%, 0 );
-  }
-  @else if $vertical {
+  } @else if $vertical {
     bottom: 50%;
     transform: translate( 0, 50% );
   }
