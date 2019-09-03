@@ -125,18 +125,18 @@ $num...数字。単位はつけない。
 ~~~css
 html {
   @include bp( max, 600px ) {
-    font-size: vw_sp( 36 );
-    margin-bottom: vw_sp( 44 );
+    font-size: vw_sp( 36 );     // -> 36 / 750 * 100vw
+    margin-bottom: vw_sp( 44 ); // -> 44 / 750 * 100vw
   }
 }
 ~~~
 
 コンパイル後
 ~~~css
-@media screen and (max-width: 600px) {
+@media screen and ( max-width: 600px ) {
   html {
-    font-size: 4.8vw;
-    margin-bottom: 5.86667vw;
+    font-size: 4.8vw;         // -> 36 / 750 * 100vw
+    margin-bottom: 5.86667vw; // -> 44 / 750 * 100vw
   }
 }
 ~~~
@@ -155,7 +155,7 @@ $num...数字。単位はつけない。
 コンパイル前
 ~~~css
 html {
-  @include bp( min, 600px ) {
+  @include bp( max, 600px ) {
     @include vw_sp( 500 );
   }
 }
@@ -163,7 +163,7 @@ html {
 
 コンパイル後
 ~~~css
-@media screen and (min-width: 600px) {
+@media screen and ( max-width: 600px ) {
   html {
     width: 66.66667vw;
     max-width: 500px;
@@ -185,19 +185,19 @@ $num...数字。単位はつけない。
 コンパイル前
 ~~~css
 html {
-  @include bp( min, 600px ) {
-    font-size: vw_pc( 36 );
-    margin-bottom: vw_pc( 44 );
+  @include bp( max, 1200px ) {
+    font-size: vw_pc( 36 );     // -> 36 / 1200 * 100vw
+    margin-bottom: vw_pc( 44 ); // -> 44 / 1200 * 100vw
   }
 }
 ~~~
 
 コンパイル後
 ~~~css
-@media screen and (min-width: 600px) {
+@media screen and ( max-width: 1200px ) {
   html {
-    font-size: 3vw;
-    margin-bottom: 3.66667vw;
+    font-size: 3vw;           // -> 36 / 1200 * 100vw
+    margin-bottom: 3.66667vw; // -> 44 / 1200 * 100vw
   }
 }
 ~~~
@@ -216,7 +216,7 @@ $num...数字。単位はつけない。
 コンパイル前
 ~~~css
 html {
-  @include bp( min, 600px ) {
+  @include bp( max, 1200px ) {
     @include vw_pc( 500 );
   }
 }
@@ -224,7 +224,7 @@ html {
 
 コンパイル後
 ~~~css
-@media screen and (min-width: 600px) {
+@media screen and ( max-width: 1200px ) {
   html {
     width: 41.66667vw;
     max-width: 500px;
@@ -238,7 +238,7 @@ html {
 ---
 ## @function per_sp()
 ---
-デザインのSP幅(750px)に対してどれぐらいの比率のvwになるかを計算する関数。<br><br>
+デザインのSP幅(750px)に対してどれぐらいの比率（%）になるかを計算する関数。<br>※ただし『%』は親と相対的な計算になるため使用には注意すること<br><br>
 
 @function per_sp( $num )
 $num...数字。単位はつけない。
@@ -247,18 +247,18 @@ $num...数字。単位はつけない。
 ~~~css
 html {
   @include bp( max, 600px ) {
-    font-size: per_sp( 36 );
-    margin-bottom: per_sp( 44 );
+    font-size: per_sp( 36 );     // -> 36 / 750 * 100%
+    margin-bottom: per_sp( 44 ); // -> 44 / 750 * 100%
   }
 }
 ~~~
 
 コンパイル後
 ~~~css
-@media screen and (max-width: 600px) {
+@media screen and ( max-width: 600px ) {
   html {
-    font-size: 4.8%;
-    margin-bottom: 5.86667%;
+    font-size: 4.8%;         // -> 36 / 750 * 100%
+    margin-bottom: 5.86667%; // -> 44 / 750 * 100%
   }
 }
 ~~~
@@ -269,7 +269,7 @@ html {
 ---
 ## @mixin per_sp()
 ---
-デザインのSP幅(750px)に対してコンテンツがどれぐらいの比率の%になるかを計算し幅を設定する関数。<br><br>
+デザインのSP幅(750px)に対してコンテンツがどれぐらいの比率（%）になるかを計算する関数。<br>※ただし『%』は親と相対的な計算になるため使用には注意すること<br><br>
 
 @mixin per_sp( $num )
 $num...数字。単位はつけない。
@@ -277,7 +277,7 @@ $num...数字。単位はつけない。
 コンパイル前
 ~~~css
 html {
-  @include bp( min, 600px ) {
+  @include bp( max, 600px ) {
     @include per_sp( 500 );
   }
 }
@@ -285,7 +285,7 @@ html {
 
 コンパイル後
 ~~~css
-@media screen and (min-width: 600px) {
+@media screen and ( max-width: 600px ) {
   html {
     width: 66.66667%;
     max-width: 500px;
@@ -299,7 +299,7 @@ html {
 ---
 ## @function per_pc()
 ---
-デザインのPC幅(1200px)に対してどれぐらいの比率の%になるかを計算する関数。<br><br>
+デザインのPC幅(1200px)に対してどれぐらいの比率（%）になるかを計算する関数。<br>※ただし『%』は親と相対的な計算になるため使用には注意すること<br><br>
 
 @function per_pc( $num )
 $num...数字。単位はつけない。
@@ -307,16 +307,16 @@ $num...数字。単位はつけない。
 コンパイル前
 ~~~css
 html {
-  @include bp( min, 600px ) {
-    font-size: per_pc( 36 );
-    margin-bottom: per_pc( 44 );
+  @include bp( max, 1200px ) {
+    font-size: per_pc( 36 );     // -> 36 / 1200 * 100%
+    margin-bottom: per_pc( 44 ); // -> 44 / 1200 * 100%
   }
 }
 ~~~
 
 コンパイル後
 ~~~css
-@media screen and (min-width: 600px) {
+@media screen and ( max-width: 1200px ) {
   html {
     font-size: 3%;
     margin-bottom: 3.66667%;
@@ -330,7 +330,7 @@ html {
 ---
 ## @mixin per_pc()
 ---
-デザインのPC幅(1200px)に対してコンテンツがどれぐらいの比率の%になるかを計算し幅を設定する関数。<br><br>
+デザインのPC幅(1200px)に対してコンテンツがどれぐらいの比率（%）になるかを計算する関数。<br>※ただし『%』は親と相対的な計算になるため使用には注意すること<br><br>
 
 @mixin per_sp( $num )
 $num...数字。単位はつけない。
@@ -338,7 +338,7 @@ $num...数字。単位はつけない。
 コンパイル前
 ~~~css
 html {
-  @include bp( min, 600px ) {
+  @include bp( max, 1200px ) {
     @include per_pc( 500 );
   }
 }
@@ -346,7 +346,7 @@ html {
 
 コンパイル後
 ~~~css
-@media screen and (min-width: 600px) {
+@media screen and ( max-width: 1200px ) {
   html {
     width: 41.66667%;
     max-width: 500px;
@@ -444,7 +444,6 @@ html {
 ---
 ## @function fsvw()
 ---
-開発途中<br>
 フォントサイズのvwで文字サイズを調整した際に最小サイズを固定するための関数。<br>
 <b>※v2.7.0から削除</b>
 
@@ -808,7 +807,7 @@ $width...太さを指定します。単位は外してください。<br>
 $color...色を指定します。<br>
 ~~~css
 ｐ {
-  @include text-border(3, #FFF);
+  @include text-border( 3, #FFF );
 }
 ~~~
 
@@ -840,7 +839,7 @@ h1 {
 }
 ｐ {
   @include leader() {
-    display: inline-block;
+    display: inline-block; /* add */
   };
 }
 ~~~
@@ -884,7 +883,7 @@ h1 {
 }
 ｐ {
   @include break-leader() {
-    display: inline-block;
+    display: inline-block; /* add */
   };
 }
 ~~~
@@ -912,3 +911,53 @@ p {
 <br><br><br>
  - [上部へ戻る](#readme)
 <br><br><br>
+
+---
+## @mixin absolute()
+---
+`position: absolute;`と`transform`を使用し、強制的に真ん中に配置する方法。<br>
+第一引数を『true』にすることで左右が、<br>
+第二引数を『true』にすることで上下の位置が真ん中になります。<br>
+
+@mixin absolute( $horizontal: false, $vertical: false )
+
+$horizontal...左右の真ん中揃えを有効にするか<br>
+$vertical...上下の真ん中揃えを有効にするか<br>
+
+~~~css
+p {
+  @include absolute();
+}
+p {
+  @include absolute( true, false );
+}
+p {
+  @include absolute( true, true );
+}
+p {
+  @include absolute( false, true );
+}
+~~~
+
+コンパイル後
+~~~css
+p {
+  position: absolute;
+}
+p {
+  position: absolute;
+  right: 50%;
+  transform: translate( 50%, 0 );
+}
+p {
+  position: absolute;
+  right: 50%;
+  bottom: 50%;
+  transform: translate( 50%, 50% );
+}
+p {
+  position: absolute;
+  bottom: 50%;
+  transform: translate( 0, 50% );
+}
+~~~
