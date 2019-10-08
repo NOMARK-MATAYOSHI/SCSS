@@ -1,6 +1,7 @@
+
 /**
- * _mixin 2.10.3
- * Released on: October 08, 2019
+ * _mixin 2.10.2
+ * Released on: September 05, 2019
  */
 
 @charset 'utf-8';
@@ -66,8 +67,7 @@
 // Vw
 //————————————————————————————————————————————
 @function vw_sp( $num ) {
-  // @return ( $num / 750 * 100vw );
-  @return ( $num / 375 * 100vw );
+  @return ( $num / 750 * 100vw );
 }
 
 @mixin vw_sp( $num ) {
@@ -88,8 +88,7 @@
 // Per
 //————————————————————————————————————————————
 @function per_sp( $num ) {
-  // @return ( $num / 750 * 100% );
-  @return ( $num / 375 * 100% );
+  @return ( $num / 750 * 100% );
 }
 
 @mixin per_sp( $num ) {
