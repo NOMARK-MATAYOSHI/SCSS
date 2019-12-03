@@ -1,6 +1,6 @@
 /**
- * _mixin 2.11.0
- * Released on: December 03, 2019
+ * _mixin 2.10.3
+ * Released on: October 08, 2019
  */
 
 @charset 'utf-8';
@@ -58,61 +58,6 @@
       @media screen and (max-width: $max) { @content; }
     } @else {
       @media screen and (min-width: $min) and (max-width: $max) { @content; }
-    }
-  }
-}
-
-//————————————————————————————————————————————
-// browser hack
-//————————————————————————————————————————————
-@mixin hack( $support ) {
-  /**
-   * -- usecase --
-   *
-   * body {
-   *   @include hack( IE ) {
-   *     background: pink;
-   *   }
-   * }
-   *
-   */
-
-  $support: to-upper-case( $support );
-
-  // Google Chrome || Opera
-  @if ( $support == 'CHROME' ) {
-    @media screen and ( -webkit-min-device-pixel-ratio: 0 ) and ( min-resolution: .001dpcm ) {
-      @content;
-    }
-  }
-
-  // Safari
-  @elseif ( $support == 'SAFARI' ) {
-    @media screen and ( -webkit-min-device-pixel-ratio: 0 ) {
-      @at-root _::-webkit-full-page-media, _:future, :root & {
-        @content;
-      }
-    }
-  }
-
-  // Firefox
-  @elseif ( $support == 'FIREFOX' ) {
-    @-moz-document url-prefix() {
-      @content;
-    }
-  }
-
-  // Edge
-  @elseif ( $support == 'EDGE' ) {
-    @supports ( -ms-ime-align: auto ) {
-      @content;
-    }
-  }
-
-  // IE11
-  @elseif ( $support == 'IE' ) {
-    @at-root _:-ms-lang( x )::-ms-backdrop, & {
-      @content;
     }
   }
 }

@@ -4,6 +4,7 @@
  - 目次
 
 1. [@mixin bp()](#mixin-bp)
+1. [@mixin hack()](#mixin-hack)
 1. [@function vw_sp()](#function-vw_sp)
 1. [@mixin vw_sp()](#mixin-vw_sp)
 1. [@function vw_pc()](#function-vw_pc)
@@ -107,6 +108,33 @@ html {
   html {
     background: #000;
   }
+}
+~~~
+<br><br><br>
+ - [上部へ戻る](#readme)
+<br><br><br>
+
+---
+## @mixin hack()
+---
+引数で渡した対象のブラウザハックを行う関数。<br><br>
+
+@mixin hack( $support )
+$support...'Chrome', 'Safari', 'Firefox', 'Edge', 'IE' の何れか。
+
+コンパイル前
+~~~css
+body {
+  @include hack( IE ) {
+    background: pink;
+  }
+}
+~~~
+
+コンパイル後
+~~~css
+_:-ms-lang( x )::-ms-backdrop, body {
+  background: pink;
 }
 ~~~
 <br><br><br>
