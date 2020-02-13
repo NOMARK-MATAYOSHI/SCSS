@@ -9,11 +9,11 @@
 // Unit Delete
 //————————————————————————————————————————————
 @function unit_delete( $num ) {
-  @if not( unitless( $num ) ) {
-    $_nounit_divisor: ( floor( $num ) * 2 ) % 2 + 1;
-    $num: ( $num / $_nounit_divisor );
-  }
-  @return $num;
+	@if not( unitless( $num ) ) {
+		$_nounit_divisor: ( floor( $num ) * 2 ) % 2 + 1;
+		$num: ( $num / $_nounit_divisor );
+	}
+	@return $num;
 }
 
 //————————————————————————————————————————————
@@ -21,166 +21,166 @@
 //————————————————————————————————————————————
 
 @mixin bp ( $type: min, $num1: false, $num2: false ) {
-  @if $type != max and $type != min and $num1 != false {
-    $num2: $num1;
-    $num1: $type;
-    $type: min;
-  } @else if $type != max and $type != min and $num1 == false {
-    $num2: null;
-    $num1: $type;
-    $type: min;
-  }
+	@if $type != max and $type != min and $num1 != false {
+		$num2: $num1;
+		$num1: $type;
+		$type: min;
+	} @else if $type != max and $type != min and $num1 == false {
+		$num2: null;
+		$num1: $type;
+		$type: min;
+	}
 
-  @if $type == min {
-    $min: $num1;
-    $max: $num2;
+	@if $type == min {
+		$min: $num1;
+		$max: $num2;
 
-    @if $max and $min and $max < $min {
-      $min: $num2;
-      $max: $num1;
-    }
+		@if $max and $min and $max < $min {
+			$min: $num2;
+			$max: $num1;
+		}
 
-    @if $max == false or $max == null {
-      @media screen and (min-width: $min) { @content; }
-    } @else {
-      @media screen and (min-width: $min) and (max-width: $max) { @content; }
-    }
-  } @elseif $type == max {
-    $min: $num2;
-    $max: $num1;
+		@if $max == false or $max == null {
+			@media screen and (min-width: $min) { @content; }
+		} @else {
+			@media screen and (min-width: $min) and (max-width: $max) { @content; }
+		}
+	} @elseif $type == max {
+		$min: $num2;
+		$max: $num1;
 
-    @if $min and $max < $min {
-      $min: $num1;
-      $max: $num2;
-    }
+		@if $min and $max < $min {
+			$min: $num1;
+			$max: $num2;
+		}
 
-    @if $min == false or $min == nul {
-      @media screen and (max-width: $max) { @content; }
-    } @else {
-      @media screen and (min-width: $min) and (max-width: $max) { @content; }
-    }
-  }
+		@if $min == false or $min == nul {
+			@media screen and (max-width: $max) { @content; }
+		} @else {
+			@media screen and (min-width: $min) and (max-width: $max) { @content; }
+		}
+	}
 }
 
 //————————————————————————————————————————————
 // browser hack
 //————————————————————————————————————————————
 @mixin hack( $support ) {
-  /**
-   * -- usecase --
-   *
-   * body {
-   *   @include hack( IE ) {
-   *     background: pink;
-   *   }
-   * }
-   *
-   */
+	/**
+	 * -- usecase --
+	 *
+	 * body {
+	 *   @include hack( IE ) {
+	 *     background: pink;
+	 *   }
+	 * }
+	 *
+	 */
 
-  $support: to-upper-case( $support );
+	$support: to-upper-case( $support );
 
-  // Google Chrome || Opera
-  @if ( $support == 'CHROME' ) {
-    @media screen and ( -webkit-min-device-pixel-ratio: 0 ) and ( min-resolution: .001dpcm ) {
-      @content;
-    }
-  }
+	// Google Chrome || Opera
+	@if ( $support == 'CHROME' ) {
+		@media screen and ( -webkit-min-device-pixel-ratio: 0 ) and ( min-resolution: .001dpcm ) {
+			@content;
+		}
+	}
 
-  // Safari
-  @elseif ( $support == 'SAFARI' ) {
-    @media screen and ( -webkit-min-device-pixel-ratio: 0 ) {
-      @at-root _::-webkit-full-page-media, _:future, :root & {
-        @content;
-      }
-    }
-  }
+	// Safari
+	@elseif ( $support == 'SAFARI' ) {
+		@media screen and ( -webkit-min-device-pixel-ratio: 0 ) {
+			@at-root _::-webkit-full-page-media, _:future, :root & {
+				@content;
+			}
+		}
+	}
 
-  // Firefox
-  @elseif ( $support == 'FIREFOX' ) {
-    @-moz-document url-prefix() {
-      @content;
-    }
-  }
+	// Firefox
+	@elseif ( $support == 'FIREFOX' ) {
+		@-moz-document url-prefix() {
+			@content;
+		}
+	}
 
-  // Edge
-  @elseif ( $support == 'EDGE' ) {
-    @supports ( -ms-ime-align: auto ) {
-      @content;
-    }
-  }
+	// Edge
+	@elseif ( $support == 'EDGE' ) {
+		@supports ( -ms-ime-align: auto ) {
+			@content;
+		}
+	}
 
-  // IE11
-  @elseif ( $support == 'IE' ) {
-    @at-root _:-ms-lang( x )::-ms-backdrop, & {
-      @content;
-    }
-  }
+	// IE11
+	@elseif ( $support == 'IE' ) {
+		@at-root _:-ms-lang( x )::-ms-backdrop, & {
+			@content;
+		}
+	}
 }
 
 //————————————————————————————————————————————
 // Vw
 //————————————————————————————————————————————
 @function vw_sp( $num ) {
-  // @return ( $num / 750 * 100vw );
-  @return ( $num / 375 * 100vw );
+	// @return ( $num / 750 * 100vw );
+	@return ( $num / 375 * 100vw );
 }
 
 @mixin vw_sp( $num ) {
-  width: vw_sp( $num );
-  max-width: ( $num ) + px;
+	width: vw_sp( $num );
+	max-width: ( $num ) + px;
 }
 
 @function vw_pc( $num ) {
-  @return ( $num / 1200 * 100vw ) ;
+	@return ( $num / 1200 * 100vw ) ;
 }
 
 @mixin vw_pc( $num ) {
-  width: vw_pc( $num );
-  max-width: ( $num ) + px;
+	width: vw_pc( $num );
+	max-width: ( $num ) + px;
 }
 
 //————————————————————————————————————————————
 // Per
 //————————————————————————————————————————————
 @function per_sp( $num ) {
-  // @return ( $num / 750 * 100% );
-  @return ( $num / 375 * 100% );
+	// @return ( $num / 750 * 100% );
+	@return ( $num / 375 * 100% );
 }
 
 @mixin per_sp( $num ) {
-  width: per_sp( $num );
-  max-width: ( $num ) + px;
+	width: per_sp( $num );
+	max-width: ( $num ) + px;
 }
 
 @function per_pc( $num ) {
-  @return ( $num / 1200 * 100% );
+	@return ( $num / 1200 * 100% );
 }
 
 @mixin per_pc( $num ) {
-  width: per_pc( $num );
-  max-width: ( $num ) + px;
+	width: per_pc( $num );
+	max-width: ( $num ) + px;
 }
 
 //————————————————————————————————————————————
 // letter-spacing
 //————————————————————————————————————————————
 @function ls( $num ) {
-  @return ( unit_delete( $num ) / 1000 )+em;
+	@return ( unit_delete( $num ) / 1000 )+em;
 }
 
 @mixin ls( $num ) {
-  letter-spacing: ls( $num );
+	letter-spacing: ls( $num );
 }
 
 //————————————————————————————————————————————
 // line-hight Expansion Rate
 //————————————————————————————————————————————
 @function lh_er( $lh, $fs: false ) {
-  @if $fs == false {
-    $fs: 1em;
-  }
+	@if $fs == false {
+		$fs: 1em;
+	}
 
-  @return ( $fs * $lh - $fs ) / 2;
+	@return ( $fs * $lh - $fs ) / 2;
 }
 
 //————————————————————————————————————————————
@@ -190,34 +190,34 @@
 $fa: Font Awesome\ 5 Free, FontAwesome;
 
 @mixin fa( $fontCode ) {
-  @if str-index( $fontCode, '\\' ) {
-    content: unquote( '\"' ) + unquote( $fontCode ) + unquote( '\"' );
-  } @else {
-    content: unquote( '\"' ) + unquote( str-insert( $fontCode, '\\', 1 ) ) + unquote( '\"' );
-  }
-  font-family: $fa;
-  line-height: 1;
+	@if str-index( $fontCode, '\\' ) {
+		content: unquote( '\"' ) + unquote( $fontCode ) + unquote( '\"' );
+	} @else {
+		content: unquote( '\"' ) + unquote( str-insert( $fontCode, '\\', 1 ) ) + unquote( '\"' );
+	}
+	font-family: $fa;
+	line-height: 1;
 }
 
 @mixin fa4( $fontCode, $lh: 1 ) {
-  @if str-index( $fontCode, '\\' ) {
-    content: unquote( '\"' ) + unquote( $fontCode ) + unquote( '\"' );
-  } @else {
-    content: unquote( '\"' ) + unquote( str-insert( $fontCode, '\\', 1 ) ) + unquote( '\"' );
-  }
-  font-family: FontAwesome;
-  line-height: $lh;
+	@if str-index( $fontCode, '\\' ) {
+		content: unquote( '\"' ) + unquote( $fontCode ) + unquote( '\"' );
+	} @else {
+		content: unquote( '\"' ) + unquote( str-insert( $fontCode, '\\', 1 ) ) + unquote( '\"' );
+	}
+	font-family: FontAwesome;
+	line-height: $lh;
 }
 
 @mixin fa5( $fontCode, $lh: 1 ) {
-  @if str-index( $fontCode, '\\' ) {
-    content: unquote( '\"' ) + unquote( $fontCode ) + unquote( '\"' );
-  } @else {
-    content: unquote( '\"' ) + unquote( str-insert( $fontCode, '\\', 1 ) ) + unquote( '\"' );
-  }
-  font-family: Font Awesome\ 5 Free;
-  font-weight: 900;
-  line-height: $lh;
+	@if str-index( $fontCode, '\\' ) {
+		content: unquote( '\"' ) + unquote( $fontCode ) + unquote( '\"' );
+	} @else {
+		content: unquote( '\"' ) + unquote( str-insert( $fontCode, '\\', 1 ) ) + unquote( '\"' );
+	}
+	font-family: Font Awesome\ 5 Free;
+	font-weight: 900;
+	line-height: $lh;
 }
 
 //————————————————————————————————————————————
@@ -235,13 +235,13 @@ $fa: Font Awesome\ 5 Free, FontAwesome;
 $im: icomoon;
 
 @mixin im( $fontCode ) {
-  @if str-index( $fontCode, '\\' ) {
-    content: unquote( '\"' ) + unquote( $fontCode ) + unquote( '\"' );
-  } @else {
-    content: unquote( '\"' ) + unquote( str-insert( $fontCode, '\\', 1 ) ) + unquote( '\"' );
-  }
-  font-family: $im;
-  line-height: 1;
+	@if str-index( $fontCode, '\\' ) {
+		content: unquote( '\"' ) + unquote( $fontCode ) + unquote( '\"' );
+	} @else {
+		content: unquote( '\"' ) + unquote( str-insert( $fontCode, '\\', 1 ) ) + unquote( '\"' );
+	}
+	font-family: $im;
+	line-height: 1;
 }
 
 // 上記、$fontCodeの設定詳細は下記URLの『6,7』
@@ -253,231 +253,231 @@ $im: icomoon;
 //————————————————————————————————————————————
 
 @mixin tri-base {
-  display: block;
-  width: 0;
-  height: 0;
-  border-style: solid;
+	display: block;
+	width: 0;
+	height: 0;
+	border-style: solid;
 }
 
 // top
 @mixin tri-t( $color, $width, $height: false ) {
-  $height: if( $height, $height, $width );
-  @include tri-base;
-  border-width: 0 $width/2 $height $width/2;
-  border-color: transparent transparent $color transparent;
+	$height: if( $height, $height, $width );
+	@include tri-base;
+	border-width: 0 $width/2 $height $width/2;
+	border-color: transparent transparent $color transparent;
 }
 
 // right
 @mixin tri-r( $color, $width, $height: false ) {
-  @include tri-base;
-  $height: if( $height, $height, $width );
-  border-width: $height/2 0 $height/2 $width;
-  border-color: transparent transparent transparent $color;
+	@include tri-base;
+	$height: if( $height, $height, $width );
+	border-width: $height/2 0 $height/2 $width;
+	border-color: transparent transparent transparent $color;
 }
 
 // bottom
 @mixin tri-b( $color, $width, $height: false ) {
-  @include tri-base;
-  $height: if( $height, $height, $width );
-  border-width: $height $width/2 0 $width/2;
-  border-color: $color transparent transparent transparent;
+	@include tri-base;
+	$height: if( $height, $height, $width );
+	border-width: $height $width/2 0 $width/2;
+	border-color: $color transparent transparent transparent;
 }
 
 // left
 @mixin tri-l( $color, $width, $height: false ) {
-  @include tri-base;
-  $height: if( $height, $height, $width );
-  border-width: $height/2 $width $height/2 0;
-  border-color: transparent $color transparent transparent;
+	@include tri-base;
+	$height: if( $height, $height, $width );
+	border-width: $height/2 $width $height/2 0;
+	border-color: transparent $color transparent transparent;
 }
 
 // top-right
 @mixin tri-tr( $color, $width, $height: false ) {
-  @include tri-base;
-  $height: if( $height, $height, $width );
-  border-width: 0 $width $height 0;
-  border-color: transparent $color transparent transparent;
+	@include tri-base;
+	$height: if( $height, $height, $width );
+	border-width: 0 $width $height 0;
+	border-color: transparent $color transparent transparent;
 }
 
 // bottom-right
 @mixin tri-br( $color, $width, $height: false ) {
-  @include tri-base;
-  $height: if( $height, $height, $width );
-  border-width: 0 0 $height $width;
-  border-color: transparent transparent $color transparent;
+	@include tri-base;
+	$height: if( $height, $height, $width );
+	border-width: 0 0 $height $width;
+	border-color: transparent transparent $color transparent;
 }
 
 // bottom-left
 @mixin tri-bl( $color, $width, $height: false ) {
-  @include tri-base;
-  $height: if( $height, $height, $width );
-  border-width: $height 0 0 $width;
-  border-color: transparent transparent transparent $color;
+	@include tri-base;
+	$height: if( $height, $height, $width );
+	border-width: $height 0 0 $width;
+	border-color: transparent transparent transparent $color;
 }
 
 // top-left
 @mixin tri-tl( $color, $width, $height: false ) {
-  @include tri-base;
-  $height: if( $height, $height, $width );
-  border-width: $height $width 0 0;
-  border-color: $color transparent transparent transparent;
+	@include tri-base;
+	$height: if( $height, $height, $width );
+	border-width: $height $width 0 0;
+	border-color: $color transparent transparent transparent;
 }
 
 //————————————————————————————————————————————
 // Gradation系
 //————————————————————————————————————————————
 @function angle( $str ) {
-  /**
-   * top → to bottom 等に変換する処理
-   *
-   * 変換後のパターン
-   * to bottom, to left, to top, to right,
-   * to top left, to top right, to bottom right, to bottom left,
-   * to left top, to right top, to right bottom, to left bottom
-   */
-  @if $str == 'top' {
-    @return #{ unquote( 'to bottom' ) };
-  } @else if $str == 'right' {
-    @return #{ unquote( 'to left' ) };
-  } @else if $str == 'bottom' {
-    @return #{ unquote( 'to top' ) };
-  } @else if $str == 'left' {
-    @return #{ unquote( 'to right' ) };
-  } @else if $str == 'bottom right' {
-    @return #{ unquote( 'to top left' ) };
-  } @else if $str == 'bottom left' {
-    @return #{ unquote( 'to top right' ) };
-  } @else if $str == 'top left' {
-    @return #{ unquote( 'to bottom right' ) };
-  } @else if $str == 'top right' {
-    @return #{ unquote( 'to bottom left' ) };
-  } @else if $str == 'right bottom' {
-    @return #{ unquote( 'to left top' ) };
-  } @else if $str == 'left bottom' {
-    @return #{ unquote( 'to right top' ) };
-  } @else if $str == 'left top' {
-    @return #{ unquote( 'to right bottom' ) };
-  } @else if $str == 'right top' {
-    @return #{ unquote( 'to left bottom' ) };
-  } @else {
-    @return $str;
-  }
+	/**
+	 * top → to bottom 等に変換する処理
+	 *
+	 * 変換後のパターン
+	 * to bottom, to left, to top, to right,
+	 * to top left, to top right, to bottom right, to bottom left,
+	 * to left top, to right top, to right bottom, to left bottom
+	 */
+	@if $str == 'top' {
+		@return #{ unquote( 'to bottom' ) };
+	} @else if $str == 'right' {
+		@return #{ unquote( 'to left' ) };
+	} @else if $str == 'bottom' {
+		@return #{ unquote( 'to top' ) };
+	} @else if $str == 'left' {
+		@return #{ unquote( 'to right' ) };
+	} @else if $str == 'bottom right' {
+		@return #{ unquote( 'to top left' ) };
+	} @else if $str == 'bottom left' {
+		@return #{ unquote( 'to top right' ) };
+	} @else if $str == 'top left' {
+		@return #{ unquote( 'to bottom right' ) };
+	} @else if $str == 'top right' {
+		@return #{ unquote( 'to bottom left' ) };
+	} @else if $str == 'right bottom' {
+		@return #{ unquote( 'to left top' ) };
+	} @else if $str == 'left bottom' {
+		@return #{ unquote( 'to right top' ) };
+	} @else if $str == 'left top' {
+		@return #{ unquote( 'to right bottom' ) };
+	} @else if $str == 'right top' {
+		@return #{ unquote( 'to left bottom' ) };
+	} @else {
+		@return $str;
+	}
 }
 
 @function vender_angle( $str ) {
-  /**
-   * to bottom → top 等に変換する処理
-   *
-   * 変換後のパターン
-   * top, right, bottom, left,
-   * bottom right, bottom left, top left, top right,
-   * right bottom, left bottom, left top, right top
-   */
-  @if $str == 'to bottom' {
-    @return #{ unquote( 'top' ) };
-  } @else if $str == 'to left' {
-    @return #{ unquote( 'right' ) };
-  } @else if $str == 'to top' {
-    @return #{ unquote( 'bottom' ) };
-  } @else if $str == 'to right' {
-    @return #{ unquote( 'left' ) };
-  } @else if $str == 'to top left' {
-    @return #{ unquote( 'bottom right' ) };
-  } @else if $str == 'to top right' {
-    @return #{ unquote( 'bottom left' ) };
-  } @else if $str == 'to bottom right' {
-    @return #{ unquote( 'top left' ) };
-  } @else if $str == 'to bottom left' {
-    @return #{ unquote( 'top right' ) };
-  } @else if $str == 'to left top' {
-    @return #{ unquote( 'right bottom' ) };
-  } @else if $str == 'to right top' {
-    @return #{ unquote( 'left bottom' ) };
-  } @else if $str == 'to right bottom' {
-    @return #{ unquote( 'left top' ) };
-  } @else if $str == 'to left bottom' {
-    @return #{ unquote( 'right top' ) };
-  } @else {
-    @return $str;
-  }
+	/**
+	 * to bottom → top 等に変換する処理
+	 *
+	 * 変換後のパターン
+	 * top, right, bottom, left,
+	 * bottom right, bottom left, top left, top right,
+	 * right bottom, left bottom, left top, right top
+	 */
+	@if $str == 'to bottom' {
+		@return #{ unquote( 'top' ) };
+	} @else if $str == 'to left' {
+		@return #{ unquote( 'right' ) };
+	} @else if $str == 'to top' {
+		@return #{ unquote( 'bottom' ) };
+	} @else if $str == 'to right' {
+		@return #{ unquote( 'left' ) };
+	} @else if $str == 'to top left' {
+		@return #{ unquote( 'bottom right' ) };
+	} @else if $str == 'to top right' {
+		@return #{ unquote( 'bottom left' ) };
+	} @else if $str == 'to bottom right' {
+		@return #{ unquote( 'top left' ) };
+	} @else if $str == 'to bottom left' {
+		@return #{ unquote( 'top right' ) };
+	} @else if $str == 'to left top' {
+		@return #{ unquote( 'right bottom' ) };
+	} @else if $str == 'to right top' {
+		@return #{ unquote( 'left bottom' ) };
+	} @else if $str == 'to right bottom' {
+		@return #{ unquote( 'left top' ) };
+	} @else if $str == 'to left bottom' {
+		@return #{ unquote( 'right top' ) };
+	} @else {
+		@return $str;
+	}
 }
 
 // 連想配列の文字列連結
 @function gradient_val( $array ) {
-  $val: null;
-  @each $pos, $color in $array {
-    $separator: #{$color $pos};
-    $val: join( $val, $separator, 'comma');
-  }
+	$val: null;
+	@each $pos, $color in $array {
+		$separator: #{$color $pos};
+		$val: join( $val, $separator, 'comma');
+	}
 
-  @return #{ $val };
+	@return #{ $val };
 }
 
 //————————————————————————————————————————————
 // Linear Gradient
 //————————————————————————————————————————————
 @mixin linear-gradient( $direction, $args ) {
-  // $direction には数字またはテキストが入ります。
-  // 数字の場合 -> '0', '20deg'... 
-  // テキストの場合 -> 'top', 'to bottom'... 
+	// $direction には数字またはテキストが入ります。
+	// 数字の場合 -> '0', '20deg'... 
+	// テキストの場合 -> 'top', 'to bottom'... 
 
-  // $args : ( 'set_point' : 'color', );
-  // $argsは連想配列になります。
-  // keyに反映したい位置、valueにカラーが入ります。
-  // 連想配列なので複数設定可能です。
+	// $args : ( 'set_point' : 'color', );
+	// $argsは連想配列になります。
+	// keyに反映したい位置、valueにカラーが入ります。
+	// 連想配列なので複数設定可能です。
 
 
-  // 色の作成
-  $key: map-keys( $args );
+	// 色の作成
+	$key: map-keys( $args );
 
-  $startColor    : map-get( $args, nth( $key, 1 ) );
-  $endColor      : map-get( $args, nth( $key, length( $key ) ) );
-  $gradientColor : gradient_val( $args );
+	$startColor    : map-get( $args, nth( $key, 1 ) );
+	$endColor      : map-get( $args, nth( $key, length( $key ) ) );
+	$gradientColor : gradient_val( $args );
 
-  /* Old browsers */
-  background: $startColor;
+	/* Old browsers */
+	background: $startColor;
 
-  /* FF3.6-15 */
-  @if type-of( $direction ) == 'number' {
-    $angle: ( 450 - $direction ) % 360;
-    $angle: if( unitless( $angle ), #{ $angle }deg, #{ $angle } );
-    background: -moz-linear-gradient( $angle, $gradientColor );
-  } @else {
-    background: -moz-linear-gradient( vender_angle( $direction ), $gradientColor );
-  }
+	/* FF3.6-15 */
+	@if type-of( $direction ) == 'number' {
+		$angle: ( 450 - $direction ) % 360;
+		$angle: if( unitless( $angle ), #{ $angle }deg, #{ $angle } );
+		background: -moz-linear-gradient( $angle, $gradientColor );
+	} @else {
+		background: -moz-linear-gradient( vender_angle( $direction ), $gradientColor );
+	}
 
-  /* Chrome10-25,Safari5.1-6 */
-  @if type-of( $direction ) == 'number' {
-    $angle: ( 450 - $direction ) % 360;
-    $angle: if( unitless( $angle ), #{ $angle }deg, #{ $angle } );
-    background: -webkit-linear-gradient( $angle, $gradientColor );
-  } @else {
-    background: -webkit-linear-gradient( vender_angle( $direction ), $gradientColor );
-  }
+	/* Chrome10-25,Safari5.1-6 */
+	@if type-of( $direction ) == 'number' {
+		$angle: ( 450 - $direction ) % 360;
+		$angle: if( unitless( $angle ), #{ $angle }deg, #{ $angle } );
+		background: -webkit-linear-gradient( $angle, $gradientColor );
+	} @else {
+		background: -webkit-linear-gradient( vender_angle( $direction ), $gradientColor );
+	}
 
-  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-  @if type-of( $direction ) == 'number' {
-    $angle: if( unitless( $direction ), #{ $direction }deg, #{ $direction } );
-    background: linear-gradient( $angle, $gradientColor );
-  } @else {
-    background: linear-gradient( angle( $direction ), $gradientColor );
-  }
+	/* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	@if type-of( $direction ) == 'number' {
+		$angle: if( unitless( $direction ), #{ $direction }deg, #{ $direction } );
+		background: linear-gradient( $angle, $gradientColor );
+	} @else {
+		background: linear-gradient( angle( $direction ), $gradientColor );
+	}
 
-  /* IE6-9 */
-  @if type-of( $direction ) == 'number' {
-    $angle: if( unitless( $direction ), #{ $direction }deg, #{ $direction } );
-    @if $angle == 0 {
-      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#{ $startColor }', endColorstr='#{ $endColor }',GradientType=0 );
-    } @else {
-      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#{ $startColor }', endColorstr='#{ $endColor }',GradientType=1 );
-    }
-  } @else {
-    @if $direction == 'top' {
-      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#{ $startColor }', endColorstr='#{ $endColor }',GradientType=0 );
-    } @else {
-      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#{ $startColor }', endColorstr='#{ $endColor }',GradientType=1 );
-    }
-  }
+	/* IE6-9 */
+	@if type-of( $direction ) == 'number' {
+		$angle: if( unitless( $direction ), #{ $direction }deg, #{ $direction } );
+		@if $angle == 0 {
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#{ $startColor }', endColorstr='#{ $endColor }',GradientType=0 );
+		} @else {
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#{ $startColor }', endColorstr='#{ $endColor }',GradientType=1 );
+		}
+	} @else {
+		@if $direction == 'top' {
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#{ $startColor }', endColorstr='#{ $endColor }',GradientType=0 );
+		} @else {
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#{ $startColor }', endColorstr='#{ $endColor }',GradientType=1 );
+		}
+	}
 }
 
 //————————————————————————————————————————————
@@ -490,68 +490,68 @@ $im: icomoon;
 // Repeating Background
 //————————————————————————————————————————————
 @function repeating-linear( $color: ( '#FFF', '#000' ), $direction: 45, $size: false ) {
-  $size: if( $size, unit_delete( $size ), 100 / length( $color ) );
+	$size: if( $size, unit_delete( $size ), 100 / length( $color ) );
 
-  $args: ();
-  @each $color_i in $color {
-    $key: ( length( $args ) ) * $size;
-    $each_args: ( $key: $color_i );
-    $args: map-merge( $args, $each_args );
-  }
+	$args: ();
+	@each $color_i in $color {
+		$key: ( length( $args ) ) * $size;
+		$each_args: ( $key: $color_i );
+		$args: map-merge( $args, $each_args );
+	}
 
-  $st:'';
-  @each $point, $color in $args {
-    // map index
-    $index: index( $args, $point $color );
-    // first
-    @if $index == 1 {
-      $st: #{ $color }, #{ $color };
-    }
-    // last
-    @else if $index == length( $args ) {
-      $p: $point / ( length( $args ) - 1 );
-      $st: $st #{ $point + px }, #{ $color $point + px }, #{ $color $point + $p + px };
-    }
-    @else {
-      $st: $st #{ $point + px }, #{ $color $point + px }, #{ $color };
-    }
-  }
+	$st:'';
+	@each $point, $color in $args {
+		// map index
+		$index: index( $args, $point $color );
+		// first
+		@if $index == 1 {
+			$st: #{ $color }, #{ $color };
+		}
+		// last
+		@else if $index == length( $args ) {
+			$p: $point / ( length( $args ) - 1 );
+			$st: $st #{ $point + px }, #{ $color $point + px }, #{ $color $point + $p + px };
+		}
+		@else {
+			$st: $st #{ $point + px }, #{ $color $point + px }, #{ $color };
+		}
+	}
 
-  $context: unquote( 'repeating-linear-gradient(' ) #{ $direction }deg, #{ $st } unquote( ')' );
-  @return $context;
+	$context: unquote( 'repeating-linear-gradient(' ) #{ $direction }deg, #{ $st } unquote( ')' );
+	@return $context;
 }
 
 @function repeating-radial( $color: ( '#FFF', '#000' ), $direction: ellipse, $size: false ) {
-  $size: if( $size, unit_delete( $size ),  100 / length( $color ) );
-  $direction: if( type-of( $direction ) == string, $direction, 'ellipse' );
+	$size: if( $size, unit_delete( $size ),  100 / length( $color ) );
+	$direction: if( type-of( $direction ) == string, $direction, 'ellipse' );
 
-  $args: ();
-  @each $color_i in $color {
-    $key: length( $args ) * $size;
-    $each_args: ( $key: $color_i );
-    $args: map-merge( $args, $each_args );
-  }
+	$args: ();
+	@each $color_i in $color {
+		$key: length( $args ) * $size;
+		$each_args: ( $key: $color_i );
+		$args: map-merge( $args, $each_args );
+	}
 
-  $st:'';
-  @each $point, $color in $args {
-    // map index
-    $index: index( $args, $point $color );
-    // first
-    @if $index == 1 {
-      $st: #{ $color }, #{ $color };
-    }
-    // last
-    @else if $index == length( $args ) {
-      $p: $point / ( length( $args ) - 1 );
-      $st: $st #{ $point + px }, #{ $color $point + px }, #{ $color $point + $p + px };
-    }
-    @else {
-      $st: $st #{ $point + px }, #{ $color $point + px }, #{ $color };
-    }
-  }
+	$st:'';
+	@each $point, $color in $args {
+		// map index
+		$index: index( $args, $point $color );
+		// first
+		@if $index == 1 {
+			$st: #{ $color }, #{ $color };
+		}
+		// last
+		@else if $index == length( $args ) {
+			$p: $point / ( length( $args ) - 1 );
+			$st: $st #{ $point + px }, #{ $color $point + px }, #{ $color $point + $p + px };
+		}
+		@else {
+			$st: $st #{ $point + px }, #{ $color $point + px }, #{ $color };
+		}
+	}
 
-  $context: unquote( 'repeating-radial-gradient(' ) #{ $direction }, #{ $st } unquote( ')' );
-  @return $context;
+	$context: unquote( 'repeating-radial-gradient(' ) #{ $direction }, #{ $st } unquote( ')' );
+	@return $context;
 }
 
 //————————————————————————————————————————————
@@ -559,64 +559,64 @@ $im: icomoon;
 //————————————————————————————————————————————
 // 5pxぐらいが限界。。。
 @mixin text-border( $width, $color ) {
-  $left-top     : null;
-  $top-right    : null;
-  $right-bottom : null;
-  $bottom-left  : null;
-  @for $i from 0 through $width {
-    @if $left-top == null {
-      $left-top: #{ $color } #{ -$width + $i + px } #{ 0 - $i + px };
-    } @else {
-      $left-top: #{ $left-top }#{ unquote(',') } #{ $color } #{ -$width + $i + px } #{ 0 - $i + px };
-    }
-  }
-  @for $i from 0 through $width {
-    @if $left-top == null {
-      $top-right: #{ $color } #{ 0 + $i + px } #{ -$width + $i + px };
-    } @else {
-      $top-right: #{ $top-right }#{ unquote(',') } #{ $color } #{ 0 + $i + px } #{ -$width + $i + px };
-    }
-  }
-  @for $i from 0 through $width {
-    @if $left-top == null {
-      $right-bottom: #{ $color } #{ $width - $i + px } #{ 0 + $i + px };
-    } @else {
-      $right-bottom: #{ $right-bottom }#{ unquote(',') } #{ $color } #{ $width - $i + px } #{ 0 + $i + px };
-    }
-  }
-  @for $i from 0 through $width {
-    @if $left-top == null {
-      $bottom-left: #{ $color } #{ 0 - $i + px } #{ $width - $i + px };
-    } @else {
-      $bottom-left: #{ $bottom-left }#{ unquote(',') } #{ $color } #{ 0 - $i + px } #{ $width - $i + px };
-    }
-  }
+	$left-top     : null;
+	$top-right    : null;
+	$right-bottom : null;
+	$bottom-left  : null;
+	@for $i from 0 through $width {
+		@if $left-top == null {
+			$left-top: #{ $color } #{ -$width + $i + px } #{ 0 - $i + px };
+		} @else {
+			$left-top: #{ $left-top }#{ unquote(',') } #{ $color } #{ -$width + $i + px } #{ 0 - $i + px };
+		}
+	}
+	@for $i from 0 through $width {
+		@if $left-top == null {
+			$top-right: #{ $color } #{ 0 + $i + px } #{ -$width + $i + px };
+		} @else {
+			$top-right: #{ $top-right }#{ unquote(',') } #{ $color } #{ 0 + $i + px } #{ -$width + $i + px };
+		}
+	}
+	@for $i from 0 through $width {
+		@if $left-top == null {
+			$right-bottom: #{ $color } #{ $width - $i + px } #{ 0 + $i + px };
+		} @else {
+			$right-bottom: #{ $right-bottom }#{ unquote(',') } #{ $color } #{ $width - $i + px } #{ 0 + $i + px };
+		}
+	}
+	@for $i from 0 through $width {
+		@if $left-top == null {
+			$bottom-left: #{ $color } #{ 0 - $i + px } #{ $width - $i + px };
+		} @else {
+			$bottom-left: #{ $bottom-left }#{ unquote(',') } #{ $color } #{ 0 - $i + px } #{ $width - $i + px };
+		}
+	}
 
-  // 連結すると勝手にカンマが入る。(配列扱い)
-  $text-shadow: $left-top $top-right $right-bottom $bottom-left;
-  text-shadow: $text-shadow;
+	// 連結すると勝手にカンマが入る。(配列扱い)
+	$text-shadow: $left-top $top-right $right-bottom $bottom-left;
+	text-shadow: $text-shadow;
 }
 
 //————————————————————————————————————————————
 // 3 Point Leader
 //————————————————————————————————————————————
 @mixin leader() {
-  overflow: hidden;
-  display: block;
-  width: 100%;
-  max-width: 100%;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  @content;
+	overflow: hidden;
+	display: block;
+	width: 100%;
+	max-width: 100%;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	@content;
 }
 
 @mixin break-leader() {
-  overflow: visible;
-  width: auto;
-  max-width: none;
-  white-space: normal;
-  text-overflow: clip;
-  @content;
+	overflow: visible;
+	width: auto;
+	max-width: none;
+	white-space: normal;
+	text-overflow: clip;
+	@content;
 }
 
 //————————————————————————————————————————————
@@ -624,98 +624,98 @@ $im: icomoon;
 //————————————————————————————————————————————
 // 文字サイズで余白を調整する関数（IEがvar関数対応していない為）
 @function space( $size: unit, $mag: 1 ) {
-  $--space: (
-    xxs  : 0.25em * $mag,
-    xs   :  0.5em * $mag,
-    sm   : 0.75em * $mag,
-    unit :    1em * $mag,
-    md   : 1.25em * $mag,
-    lg   :  1.5em * $mag,
-    xl   : 1.75em * $mag,
-    xxl  :    2em * $mag,
-  );
+	$--space: (
+		xxs  : 0.25em * $mag,
+		xs   :  0.5em * $mag,
+		sm   : 0.75em * $mag,
+		unit :    1em * $mag,
+		md   : 1.25em * $mag,
+		lg   :  1.5em * $mag,
+		xl   : 1.75em * $mag,
+		xxl  :    2em * $mag,
+	);
 
-  // フィボナッチ数列版
-  // $--space: (
-  //   xxs  : 0.25em * $mag,
-  //   xs   :  0.5em * $mag,
-  //   sm   : 0.75em * $mag,
-  //   unit :    1em * $mag,
-  //   md   : 1.25em * $mag,
-  //   lg   :    2em * $mag,
-  //   xl   : 3.25em * $mag,
-  //   xxl  : 5.25em * $mag,
-  // );
+	// フィボナッチ数列版
+	// $--space: (
+	//   xxs  : 0.25em * $mag,
+	//   xs   :  0.5em * $mag,
+	//   sm   : 0.75em * $mag,
+	//   unit :    1em * $mag,
+	//   md   : 1.25em * $mag,
+	//   lg   :    2em * $mag,
+	//   xl   : 3.25em * $mag,
+	//   xxl  : 5.25em * $mag,
+	// );
 
-  @return #{ map-get( $--space, $size ) };
+	@return #{ map-get( $--space, $size ) };
 }
 
 //————————————————————————————————————————————
 // gridの設定用
 //————————————————————————————————————————————
 @mixin column( $length, $margin ) {
-  $parent: #{&};
+	$parent: #{&};
 
-  display: flex;
-  flex-wrap: wrap;
-  margin-top: -1 * $margin;
+	display: flex;
+	flex-wrap: wrap;
+	margin-top: -1 * $margin;
 
-  #{$parent}__item {
-    margin-top: $margin;
-    margin-left: $margin;
-  }
+	#{$parent}__item {
+		margin-top: $margin;
+		margin-left: $margin;
+	}
 
-  @for $i from 1 through $length {
-    &--#{$i} {
-      #{$parent}__item {
-        width: calc( ( 100% - #{ $margin * ( $i - 1 ) } ) / #{$i} );
+	@for $i from 1 through $length {
+		&--#{$i} {
+			#{$parent}__item {
+				width: calc( ( 100% - #{ $margin * ( $i - 1 ) } ) / #{$i} );
 
-        &:nth-of-type(#{$i}n+1) {
-          margin-left: 0;
-        }
-      }
-    }
-  }
+				&:nth-of-type(#{$i}n+1) {
+					margin-left: 0;
+				}
+			}
+		}
+	}
 }
 
 //————————————————————————————————————————————
 // gridの設定用
 //————————————————————————————————————————————
 @mixin grid( $length ) {
-  $parent: #{&};
+	$parent: #{&};
 
-  display: flex;
+	display: flex;
 
-  @for $i from $length through 1 {
-    &#{$parent}--#{$i} {
-      @for $n from 1 through ( $i - 1 ) {
-        #{$parent}__item--#{$n} {
-          width: calc( 100% * #{$n} / #{$i} );
-        }
-      }
-    }
-  }
+	@for $i from $length through 1 {
+		&#{$parent}--#{$i} {
+			@for $n from 1 through ( $i - 1 ) {
+				#{$parent}__item--#{$n} {
+					width: calc( 100% * #{$n} / #{$i} );
+				}
+			}
+		}
+	}
 }
 
 //————————————————————————————————————————————
 // 天地中央
 //————————————————————————————————————————————
 @mixin absolute( $horizontal: false, $vertical: false ) {
-  position: absolute;
+	position: absolute;
 
-  @if $horizontal and $vertical {
-    bottom: 50%;
-    right: 50%;
-    transform: translate( 50%, 50% );
-  }
-  @else if $horizontal {
-    right: 50%;
-    transform: translate( 50%, 0 );
-  }
-  @else if $vertical {
-    bottom: 50%;
-    transform: translate( 0, 50% );
-  }
+	@if $horizontal and $vertical {
+		bottom: 50%;
+		right: 50%;
+		transform: translate( 50%, 50% );
+	}
+	@else if $horizontal {
+		right: 50%;
+		transform: translate( 50%, 0 );
+	}
+	@else if $vertical {
+		bottom: 50%;
+		transform: translate( 0, 50% );
+	}
 }
 
 
@@ -723,17 +723,17 @@ $im: icomoon;
 // placeholderの色設定
 //————————————————————————————————————————————
 @mixin placeholder( $color ) {
-  &::placeholder {
-    color: $color;
-  }
+	&::placeholder {
+		color: $color;
+	}
 
-  // IE
-  &:-ms-input-placeholder {
-    color: $color;
-  }
+	// IE
+	&:-ms-input-placeholder {
+		color: $color;
+	}
 
-  // Edge
-  &::-ms-input-placeholder {
-    color: $color;
-  }
+	// Edge
+	&::-ms-input-placeholder {
+		color: $color;
+	}
 }
