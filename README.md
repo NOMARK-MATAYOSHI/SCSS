@@ -3,6 +3,7 @@
 ---
  - 目次
 
+1. [@function unit_delete()](#mixin-unit_delete)
 1. [@mixin bp()](#mixin-bp)
 1. [@mixin hack()](#mixin-hack)
 1. [@function vw_sp()](#function-vw_sp)
@@ -15,11 +16,11 @@
 1. [@mixin per_pc()](#mixin-per_pc)
 1. [@function ls()](#function-ls)
 1. [@mixin ls()](#mixin-ls)
-1. [@function lh_er()](#function-lh_er) add v2.7.0
+1. [@function lh_er()](#function-lh_er)
 1. ~~[@function fsvw()](#function-fsvw)~~ delete v2.7.0
 1. [@mixin fa()](#mixin-fa)
-1. [@mixin fa4()](#mixin-fa4) add v2.7.0
-1. [@mixin fa5()](#mixin-fa5) add v2.7.0
+1. [@mixin fa4()](#mixin-fa4)
+1. [@mixin fa5()](#mixin-fa5)
 1. [@mixin im()](#mixin-im)
 1. [@mixin tri-xx()](#mixin-tri-xx)
 1. [@mixin linear-gradient()](#mixin-linear-gradient)
@@ -29,6 +30,51 @@
 1. [@mixin text-border()](#mixin-text-border)
 1. [@mixin leader()](#mixin-leader)
 1. [@mixin break-leader()](#mixin-break-leader)
+1. [@mixin column()](#mixin-column)
+1. [@mixin grid()](#mixin-grid)
+1. [@mixin absolute()](#mixin-absolute)
+1. [@mixin placeholder()](#mixin-placeholder)
+1. [@function sin()](#function-sin)
+1. [@function cos()](#function-cos)
+1. [@function tan()](#function-tan)
+
+---
+## @function unit_delete()
+---
+単位を削除する関数です。<br>
+引数は第一引数のみです。
+
+@function unit_delete( $num )
+
+$num...単位付きの数字、単位なしの数字<br>
+
+コンパイル前
+~~~css
+.fs {
+  $fs: 5px;
+  font-size: $fs;
+  
+  @media screen and (max-width: 600px) {
+    font-size: calc( unit_delete( $fs ) / 600 * 100vw );
+  }
+}
+~~~
+
+コンパイル後
+~~~css
+.fs {
+  font-size: 5px;
+}
+
+@media screen and (max-width: 600px) {
+  .fs {
+    font-size: calc( 5 / 600 * 100vw );
+  }
+}
+~~~
+<br><br><br>
+ - [上部へ戻る](#readme)
+<br><br><br>
 
 ---
 ## @mixin bp()
@@ -941,6 +987,170 @@ p {
 <br><br><br>
 
 ---
+## @mixin column()
+---
+折り返し対応の等倍コンテンツを簡単な形式で作成します。<br><br>
+HTMLとの連携が必要で、<br>
+親コンテンツに対し、対象となるクラス（`.任意`）、列指定クラス（`.任意--N`）を付与、<br>
+子コンテンツに`.任意__item`を付与し作成してください。<br>
+この際、列指定クラスで指定した`N個の子コンテンツ`を作成してください<br>
+
+@mixin column( $length, $margin )
+
+$length...列数<br>
+$margin...余白値<br>
+
+~~~html
+---例---
+
+対象となるクラスを.colとした場合
+
+<div class="col col--2">
+  <div class="col__item"></div>
+  <div class="col__item"></div>
+</div>
+~~~
+
+~~~css
+.col {
+  $length: 2;
+  $margin: 5px;
+
+  @include column( $i, $margin );
+  @include bp( max, 600px ) {
+    @include column( $i, vw_sp( unit_delete( $margin ) ) );
+  }
+}
+~~~
+
+コンパイル後
+~~~css
+.col--2 {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: -5px;
+  margin-left: -5px;
+}
+.col--2 .col__item {
+  width: calc((100% - 5px) / 2);
+  margin-top: 5px;
+  margin-left: 5px;
+}
+
+@media screen and (max-width:600px) {
+  .col--2 {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: -1.3333333333vw;
+    margin-left: -1.3333333333vw;
+  }
+  .col--2 .col__item {
+    width: calc((100% - 2.6666666666vw) / 2);
+    margin-top: 1.3333333333vw;
+    margin-left: 1.3333333333vw;
+  }
+}
+~~~
+
+<br><br><br>
+ - [上部へ戻る](#readme)
+<br><br><br>
+
+---
+## @mixin grid()
+---
+折り返し対応の等比コンテンツを簡単な形式で作成します。<br>
+HTMLとの連携が必要で、<br>
+親となるコンテンツに対し、対象となるクラス（`.任意`）、列指定クラス（`.任意--N`）を付与、<br>
+子となるコンテンツに`.任意__item`、`.任意__item--n`を付与し作成してください。<br>
+この際、`.任意__item--n`のサイズは親に対し`n/N`となります。<br>
+
+
+@mixin grid( $length )
+
+$length...列数<br>
+
+~~~html
+---例---
+
+対象となるクラスを.gridとした場合
+下記のようなHTMLが作成できます。
+
+<div class="grid grid--4">
+  <div class="grid__item grid__item--1">1/4</div>
+  <div class="grid__item grid__item--1">1/4</div>
+  <div class="grid__item grid__item--1">1/4</div>
+  <div class="grid__item grid__item--1">1/4</div>
+</div>
+
+<div class="grid grid--4">
+  <div class="grid__item grid__item--1">1/4</div>
+  <div class="grid__item grid__item--1">1/4</div>
+  <div class="grid__item grid__item--2">1/2</div>
+</div>
+
+<div class="grid grid--4">
+  <div class="grid__item grid__item--1">1/4</div>
+  <div class="grid__item grid__item--3">1/3</div>
+</div>
+~~~
+
+~~~css
+.grid {
+  $length: 1;
+
+  @include grid( $length );
+}
+~~~
+
+コンパイル後
+~~~css
+.grid {
+  display: flex
+}
+
+.grid.grid--4 .grid__item--1 {
+  width: calc(100% * 1 / 4)
+}
+
+.grid.grid--4 .grid__item--2 {
+  width: calc(100% * 2 / 4)
+}
+
+.grid.grid--4 .grid__item--3 {
+  width: calc(100% * 3 / 4)
+}
+
+.grid.grid--3 .grid__item--1 {
+  width: calc(100% * 1 / 3)
+}
+
+.grid.grid--3 .grid__item--2 {
+  width: calc(100% * 2 / 3)
+}
+
+.grid.grid--2 .grid__item--1 {
+  width: calc(100% * 1 / 2)
+}
+
+.grid.grid--1 .grid__item--1 {
+  width: calc(100% * 1 / 1)
+}
+
+.grid.grid--1 .grid__item--0 {
+  width: calc(100% * 0 / 1)
+}
+
+.grid__item {
+  flex: 1 1 auto
+}
+~~~
+
+<br><br><br>
+ - [上部へ戻る](#readme)
+<br><br><br>
+
+---
 ## @mixin absolute()
 ---
 `position: absolute;`と`transform`を使用し、強制的に真ん中に配置する方法。<br>
@@ -989,3 +1199,78 @@ p {
   transform: translate( 0, 50% );
 }
 ~~~
+
+<br><br><br>
+ - [上部へ戻る](#readme)
+<br><br><br>
+
+---
+## @mixin placeholder()
+---
+placeholderのcollarを指定する関数。<br>
+
+@mixin placeholder( $color )
+
+$color...rgb(),rgba(),#FFF等で色を指定します。<br>
+
+~~~css
+textarea {
+  @placeholder( #333 );
+}
+~~~
+
+コンパイル後
+~~~css
+textarea::placeholder {
+  color: #333;
+}
+textarea&:-ms-input-placeholder {
+  color: #333;
+}
+textarea::-ms-input-placeholder {
+  color: #333;
+}
+~~~
+
+<br><br><br>
+ - [上部へ戻る](#readme)
+<br><br><br>
+
+---
+## @function sin()
+---
+三角関数のsinです。<br>
+
+@function sin( $angle )
+
+$angle...角度。'deg' or 'rad'。<br>
+
+<br><br><br>
+ - [上部へ戻る](#readme)
+<br><br><br>
+
+---
+## @function cos()
+---
+三角関数のcosです。<br>
+
+@function cos( $angle )
+
+$angle...角度。'deg' or 'rad'。<br>
+
+<br><br><br>
+ - [上部へ戻る](#readme)
+<br><br><br>
+
+---
+## @function tan()
+---
+三角関数のtanです。<br>
+
+@function tan( $angle )
+
+$angle...角度。'deg' or 'rad'。<br>
+
+<br><br><br>
+ - [上部へ戻る](#readme)
+<br><br><br>
