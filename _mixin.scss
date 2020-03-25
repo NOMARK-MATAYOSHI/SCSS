@@ -1,6 +1,6 @@
 /**
- * _mixin 2.12.1
- * Released on: March 06, 2020
+ * _mixin 2.12.2
+ * Released on: March 25, 2020
  */
 
 @charset 'utf-8';
@@ -435,7 +435,7 @@ $im: icomoon;
 	$gradientColor : gradient_val( $args );
 
 	/* Old browsers */
-	background: $startColor;
+	background: if( type-of( $startColor ) == 'color', $startColor, unquote( $startColor ) );
 
 	/* FF3.6-15 */
 	@if type-of( $direction ) == 'number' {
