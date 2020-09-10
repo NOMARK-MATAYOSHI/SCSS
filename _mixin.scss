@@ -1,6 +1,6 @@
 /**
- * _mixin 2.14.0
- * Released on: August 25, 2020
+ * _mixin 2.14.2
+ * Released on: September 10, 2020
  */
 
 @charset 'utf-8';
@@ -614,9 +614,9 @@ $im: icomoon;
 }
 
 //————————————————————————————————————————————
-// 3 Point Leader
+// 3 Point reader
 //————————————————————————————————————————————
-@mixin leader() {
+@mixin reader() {
 	overflow: hidden;
 	display: block;
 	width: 100%;
@@ -626,7 +626,7 @@ $im: icomoon;
 	@content;
 }
 
-@mixin break-leader() {
+@mixin break-reader() {
 	overflow: visible;
 	width: auto;
 	max-width: none;
