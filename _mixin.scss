@@ -1,5 +1,5 @@
 /**
- * _mixin 2.14.2
+ * _mixin 2.14.3
  * Released on: September 10, 2020
  */
 
@@ -758,19 +758,21 @@ $im: icomoon;
 //————————————————————————————————————————————
 // placeholderの色設定
 //————————————————————————————————————————————
-@mixin placeholder( $color ) {
+@mixin placeholder() {
 	&::placeholder {
-		color: $color;
+		@content;
 	}
-
-	// IE
+	&::-webkit-input-placeholder {
+		@content;
+	}
 	&:-ms-input-placeholder {
-		color: $color;
+		@content;
 	}
-
-	// Edge
-	&::-ms-input-placeholder {
-		color: $color;
+	&:-moz-placeholder {
+		@content;
+	}
+	&::-moz-placeholder {
+		@content;
 	}
 }
 
