@@ -1,6 +1,6 @@
 /**
- * _mixin 2.14.3
- * Released on: September 10, 2020
+ * _mixin 2.14.4
+ * Released on: October 28, 2020
  */
 
 @charset 'utf-8';
@@ -669,45 +669,23 @@ $im: icomoon;
 //————————————————————————————————————————————
 // gridの設定用
 //————————————————————————————————————————————
-@mixin column( $length, $margin ) {
+@mixin column( $length, $margin_left, $margin_top: false ) {
 	$parent: #{&};
 
-	&--#{ $length } {
+	@if $margin_top == false {
+		$margin_top: $margin_left;
+	}
+
+	& {
 		display: flex;
 		flex-wrap: wrap;
-		margin-top: -1 * $margin;
-		margin-left: -1 * $margin;
+		margin-top: -1 * $margin_top;
+		margin-left: -1 * $margin_left;
 
-		@include bp( 900px, 601px ) {
-			&--tab {
-				margin-top: -1 * $margin !important;
-				margin-left: -1 * $margin !important;
-
-				#{$parent}__item {
-					width: calc( ( 100% - #{ $margin * $length } ) / #{ $length } ) !important;
-					margin-top: $margin !important;
-					margin-left: $margin !important;
-				}
-			}
-		}
-
-		@include bp( max, 600px ) {
-			&--sp {
-				margin-top: -1 * vw_sp( $margin ) !important;
-				margin-left: -1 * vw_sp( $margin ) !important;
-
-				#{$parent}__item {
-					width: calc( ( 100% - #{ vw_sp( $margin ) * $length } ) / #{ $length } ) !important;
-					margin-top: vw_sp( $margin ) !important;
-					margin-left: vw_sp( $margin ) !important;
-				}
-			}
-		}
-
-		#{$parent}__item {
-			width: calc( ( 100% - #{ $margin * $length } ) / #{ $length } );
-			margin-top: $margin;
-			margin-left: $margin;
+		& > * {
+			width: if( unit_delete( $margin_left ) == 0 , calc( 100% / #{ $length } ), calc( ( 100% - #{ $margin_left * $length } ) / #{ $length } ) );
+			margin-top: $margin_top;
+			margin-left: $margin_left;
 		}
 	}
 }
